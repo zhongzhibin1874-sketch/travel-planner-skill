@@ -31,60 +31,38 @@ Design every response as a low-friction decision screen. The user should usually
 - For visual destination decisions, default to compact clickable Xiaohongshu/小红书 popular travel-note or search links rather than embedded images, because some chat clients do not render remote images reliably and single-image links create too much clicking. Use Xiaohongshu only for visual inspiration, photo quality, and user interest. Do not rely on Xiaohongshu for factual planning facts such as visa rules, opening hours, ticket rules, transport schedules, or prices; verify those with official or major booking/travel sources.
 - Surface major special-condition warnings early, at the destination/direction stage, when they could affect whether the user should choose that direction. Examples: geopolitical instability, active conflict nearby, severe travel advisories, unusual visa barriers, sanctions/payment issues, high-altitude risk, extreme weather/seasonal closure, epidemic or natural-disaster disruptions. Keep the warning brief. Put supporting source links behind "点击查看资料来源".
 
-## Saved Traveler Profile
+## Traveler Inputs
 
-When this skill starts a new travel-planning session, first ask whether to continue using the saved traveler profile below or modify it. Do this before asking other Stage 1 questions, unless the user has already supplied conflicting information in the current message.
+Use traveler details already provided in the current conversation. Do not ask for the same information twice.
 
-Saved profile:
+When information is missing, collect it only when the current planning stage needs it:
 
-- Departure city: 广州
-- Travelers: 3 adults + 1 child aged 4
-- Adult composition: one couple + one 70-year-old woman
-- Travel documents: Mainland China passports
-- Accessibility and comfort constraints: the 70-year-old traveler is generally healthy, but avoid destinations and itineraries with high physical demands; prefer elevators, less walking, and transport plans that reduce transfers and long walks.
+- Departure city
+- Number of travelers and room needs
+- Children, elderly travelers, mobility needs, or other comfort constraints
+- Passport nationality or visa-relevant identity
+- Dates, trip length, desired experiences, budget, and accommodation preference
 
-Suggested confirmation prompt:
-
-"我这里保存的默认出行信息是：
-
-- 出发地：广州
-- 出行人：3 位成人 + 1 位 4 岁儿童
-- 成人构成：一对夫妻 + 1 位 70 岁女士
-- 旅行证件：中国大陆护照
-
-请直接回复：
-
-1. 继续沿用这组信息
-2. 如需修改，请将修改内容直接告诉我
-3. 暂不开始规划"
-
-If the user confirms the saved profile, do not ask those questions again. Continue from the first missing decision layer, such as dates, trip length, desired experiences, budget, destination, or hotel preference.
-
-If the user modifies any saved profile item, use the new information for the current plan. After acknowledging the modification, ask whether to sync the modified information into the default traveler profile with numeric options:
-
-1. 保存为新的默认出行信息
-2. 仅本次旅行使用
-3. 返回上一步
-
-Do not overwrite this skill file unless the user explicitly confirms saving the updated profile.
+Do not store personal traveler information in this skill file. Treat all traveler details as session-specific unless the user's environment provides a separate, consent-based profile or memory system.
 
 ## Workflow
 
 ### Stage 1: Trip Intent And Destination Shortlist
 
-When the user first asks for travel advice, collect only the missing items. Do not ask for items that are already supplied by the saved profile or current message:
+When the user first asks for travel advice, collect only the missing items. Do not ask for items that are already supplied in the current conversation:
 
+- Departure city
 - Time and length: departure date/date range/month and total trip length, counted from leaving home to returning home
 - Desired experience or direction, such as leisure, food, nature, snow, parent-child activities, culture, hot springs, shopping, photography, self-driving, local daily life, cultural contrast, or no-go places/budget if the user prefers to state constraints first
 
-When asking for these missing items, request only these two fields and explicitly tell the user that providing just one is enough to continue. Do not ask for departure city, traveler count, children/elderly status, or documents if already covered by the saved profile.
+Ask only for the minimum information needed to produce a useful destination shortlist. Tell the user that partial information is enough to continue.
 
 Then propose 3-5 city or region choices. For each option include:
 
 - Why it fits the user's timing and preferences
 - Signature experiences and seasonal fit
 - Approximate travel style and pace
-- Whether it is suitable for elderly travelers and young children when the saved profile applies
+- Whether it is suitable for elderly travelers, young children, or mobility constraints when relevant
 - 4-6 total high-appeal Xiaohongshu/小红书 travel-note or search links across the options, showing classic sights inside those directions. Prefer popular guide/search pages that contain multiple high-quality photos rather than single-image pages.
 - Label each visual link clearly, for example: "四姑娘山双桥沟雪山 - 小红书攻略看图". If Xiaohongshu is inaccessible, fall back to Trip.com Moments, Ctrip travel notes, official gallery pages, or other multi-image travel pages. Use Markdown image syntax only when image rendering has been verified in the current client.
 
@@ -104,9 +82,9 @@ Also tell the user they may type a new destination or travel theme manually.
 
 After the user chooses a destination, ask only for missing items:
 
-- Number of travelers, unless confirmed from the saved profile
-- Whether there are children or elderly travelers, unless confirmed from the saved profile
-- Passport nationality or visa-relevant identity, unless confirmed from the saved profile
+- Number of travelers, unless already confirmed
+- Whether there are children, elderly travelers, or mobility constraints, unless already confirmed
+- Passport nationality or visa-relevant identity, unless already confirmed
 - Accommodation preference if not already known
 
 Then use current booking/travel sources only enough to estimate a realistic rough range. Prefer official airline/hotel/visa pages and major booking platforms available to the user, including Chinese platforms when suitable: Ctrip, Fliggy, Tongcheng, Qunar, airline official sites, hotel official sites, Booking, Agoda, Trip.com, and official embassy/consulate or government visa pages.
@@ -147,7 +125,7 @@ Each route should include:
 - Suggested nights per stop
 - Pace: relaxed, moderate, or tight
 - Best-fit traveler type
-- Elderly/child suitability notes when the saved profile applies
+- Elderly/child suitability notes when relevant
 - Overall route planning map or a map link/embedded map when possible
 
 Use real geography and transit feasibility. Avoid routes that look attractive but waste excessive time in transfers.
@@ -170,8 +148,8 @@ After the user chooses a route, re-select hotels around the actual route. Optimi
 - Fewer hotel changes when possible
 - Price
 - Comfort and review quality
-- Fit with the selected travel tier and traveler profile
-- Elevators, low walking burden, and room layouts suitable for elderly travelers and young children when the saved profile applies
+- Fit with the selected travel tier and traveler needs
+- Elevators, low walking burden, and suitable room layouts when elderly travelers, young children, or mobility constraints apply
 
 Provide 2-3 hotel combination plans. For each combination include:
 
