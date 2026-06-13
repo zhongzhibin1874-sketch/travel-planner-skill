@@ -1,0 +1,7 @@
+interface:
+  display_name: "Travel Planner"
+  short_description: "Easy step-by-step leisure trip planning with visual choices, budgets, routes, hotels, and daily schedules."
+  default_prompt: "Use $travel-planner to plan a leisure trip step by step with concise numeric choices, current sources, visual destination options, budgets, routes, hotels, and expandable daily details."
+
+policy:
+  allow_implicit_invocation: true
