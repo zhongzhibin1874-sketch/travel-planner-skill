@@ -83,7 +83,7 @@ travel-planner/
 
 ### 许可证
 
-本仓库目前尚未添加开源许可证。在许可证添加之前，默认保留全部权利。
+本项目采用 [MIT License](LICENSE)。
 
 ## English
 
@@ -129,4 +129,4 @@ Use $travel-planner to plan a relaxed seven-day family trip to Japan.
 
 ### License
 
-No open-source license has been added yet. All rights are reserved until a license is provided.
+This project is licensed under the [MIT License](LICENSE).
