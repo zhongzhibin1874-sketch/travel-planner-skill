@@ -26,7 +26,7 @@ Design every response as a low-friction decision screen. The user should usually
 - Prefer concise Chinese headings, short tables, and compact bullets. Avoid long paragraphs unless the user asks for details.
 - Default to "summary first, details later": give a brief recommendation, 2-5 decision options, and clear next action.
 - Hide information sources by default. Each stage should include a compact source-view control labeled "点击查看资料来源" near the end. Use it as a normal numeric option with the same visual style as other options. Only show source links, retrieval notes, and detailed caveats after the user chooses that control.
-- Do not hide action links that the user needs to complete the plan, such as booking, reservation, ticketing, map, Xiaohongshu visual inspiration, hotel, airline, railway, or official application links. Hide only supporting evidence/citation links used to justify facts.
+- Do not hide action links that the user needs to complete the plan, such as booking, reservation, ticketing, map, Xiaohongshu destination inspiration, Ctrip hotel photos, airline, railway, or official application links. Hide only supporting evidence/citation links used to justify facts.
 - When the user opens "点击查看资料来源", show sources in a compact grouped list: claim/section, source name, link, and retrieval date if available. Keep this expansion separate from the main decision content.
 - For visual destination decisions, default to compact clickable Xiaohongshu/小红书 popular travel-note or search links rather than embedded images, because some chat clients do not render remote images reliably and single-image links create too much clicking. Use Xiaohongshu only for visual inspiration, photo quality, and user interest. Do not rely on Xiaohongshu for factual planning facts such as visa rules, opening hours, ticket rules, transport schedules, or prices; verify those with official or major booking/travel sources.
 - Surface major special-condition warnings early, at the destination/direction stage, when they could affect whether the user should choose that direction. Examples: geopolitical instability, active conflict nearby, severe travel advisories, unusual visa barriers, sanctions/payment issues, high-altitude risk, extreme weather/seasonal closure, epidemic or natural-disaster disruptions. Keep the warning brief. Put supporting source links behind "点击查看资料来源".
@@ -41,7 +41,7 @@ When information is missing, collect it only when the current planning stage nee
 - Number of travelers, adult/child composition, gender composition, room-sharing relationships, and room needs
 - Children, elderly travelers, mobility needs, or other comfort constraints
 - Passport nationality or visa-relevant identity
-- Dates, trip length, desired experiences, budget, and accommodation preference
+- Dates, trip length, desired experiences, and budget
 
 Do not store personal traveler information in this skill file. Treat all traveler details as session-specific unless the user's environment provides a separate, consent-based profile or memory system.
 
@@ -62,15 +62,18 @@ Then propose 3-5 city or region choices. For each option include:
 - Why it fits the user's timing and preferences
 - Signature experiences and seasonal fit
 - Approximate travel style and pace
+- A per-person total trip cost range for the stated trip length, including round-trip transport, a shared standard room when applicable, local transport, meals, and typical tickets. State the currency and key assumptions.
 - Whether it is suitable for elderly travelers, young children, or mobility constraints when relevant
 - 4-6 total high-appeal Xiaohongshu/小红书 travel-note or search links across the options, showing classic sights inside those directions. Prefer popular guide/search pages that contain multiple high-quality photos rather than single-image pages.
 - Label each visual link clearly, for example: "四姑娘山双桥沟雪山 - 小红书攻略看图". If Xiaohongshu is inaccessible, fall back to Trip.com Moments, Ctrip travel notes, official gallery pages, or other multi-image travel pages. Use Markdown image syntax only when image rendering has been verified in the current client.
 
-Keep the shortlist scannable: one compact table plus a small "风景参考" image/link section is enough. In the image section, label each image or link with the destination/direction and classic sight name. Do not include budgets, hotel details, or day-by-day routes yet.
+Keep the shortlist scannable: one compact table plus a small "风景参考" image/link section is enough. Include a dedicated "单人总成本粗估" column in the table. In the image section, label each image or link with the destination/direction and classic sight name. Do not include hotel candidates or day-by-day routes yet.
+
+Use current transport and lodging snapshots to estimate these ranges. Keep the estimate broad and decision-oriented rather than presenting multiple budget tiers. State that the amount is a rough per-person total and may change with booking availability.
 
 End with numeric options:
 
-1. 选择推荐方向，继续看预算范围。
+1. 选择推荐方向，继续看路线方案。
 2. 选择其它已列出的目的地/路线方向。
 3. 继续查看更多同主题选项。
 4. 点击查看资料来源
@@ -78,42 +81,9 @@ End with numeric options:
 
 Also tell the user they may type a new destination or travel theme manually.
 
-### Stage 2: Budget Expectation And Visa Range
+### Stage 2: Route Options
 
-After the user chooses a destination, ask only for missing items:
-
-- Number of travelers, unless already confirmed
-- Whether there are children, elderly travelers, or mobility constraints, unless already confirmed
-- Passport nationality or visa-relevant identity, unless already confirmed
-- Accommodation preference if not already known
-
-Then use current booking/travel sources only enough to estimate a realistic rough range. Prefer official airline/hotel/visa pages and major booking platforms available to the user, including Chinese platforms when suitable: Ctrip, Fliggy, Tongcheng, Qunar, airline official sites, hotel official sites, Booking, Agoda, Trip.com, and official embassy/consulate or government visa pages.
-
-This stage is only for budget expectation-setting. Keep it compact. Do not provide specific flight numbers, detailed hotel candidates, hotel photos, daily meal estimates, attraction-by-attraction costs, or route details yet.
-
-Provide three rough cost tiers. If the user supplied a whole-trip budget, also show the estimated total for the full group:
-
-- Economy tier
-- Comfort tier
-- Quality tier
-
-Each tier should include:
-
-- Per-person estimate
-- Full-group estimate when traveler count is known
-- Broad cost composition, such as flights, lodging, local transport, tickets/visas
-- One sentence about the main comfort or tradeoff difference
-
-State clearly that this is a rough budget range for expectation-setting only; the accurate budget depends on later route, hotel, flight, and activity choices. Prices are snapshots and may change.
-
-End with numeric options:
-
-1. 这个预算范围可以接受，继续看路线方案。
-2. 对比其它已列出方向的预算范围。
-3. 点击查看资料来源
-4. 返回上一步
-
-### Stage 3: Route Options
+For an international destination, confirm passport nationality before proposing routes only when it is still unknown and entry eligibility or preparation time could make the trip infeasible. Keep this as a brief entry check, not a separate budget stage.
 
 Based on destination and trip dates/duration, propose 2-4 route arrangements. Put each route's strongest feature at the front.
 
@@ -140,7 +110,7 @@ End with numeric options:
 4. 点击查看资料来源
 5. 返回上一步
 
-### Stage 4: Traveler And Room Confirmation
+### Stage 3: Traveler And Room Confirmation
 
 Before recommending hotels, confirm the traveler composition and room requirements. Do not proceed to hotel combinations until these items are known or the user explicitly declines to provide an optional detail:
 
@@ -164,7 +134,7 @@ End with numeric options:
 2. 修改同行成员或房间需求。
 3. 返回上一步
 
-### Stage 5: Hotel Combination Optimization
+### Stage 4: Hotel Combination Optimization
 
 After the user chooses a route and confirms traveler and room requirements, re-select hotels around the actual route. Optimize for:
 
@@ -172,7 +142,7 @@ After the user chooses a route and confirms traveler and room requirements, re-s
 - Fewer hotel changes when possible
 - Price
 - Comfort and review quality
-- Fit with the selected travel tier and traveler needs
+- Fit with the user's stated budget and traveler needs
 - Elevators, low walking burden, and suitable room layouts when elderly travelers, young children, or mobility constraints apply
 
 Provide 2-3 hotel combination plans. For each combination include:
@@ -182,7 +152,7 @@ Provide 2-3 hotel combination plans. For each combination include:
 - Approximate price range for the whole hotel combination and the room assumptions, such as 2 rooms x N nights or one family room plus one standard room when realistic
 - Transit/walking distance to key stations or sights
 - Pros, cons, and who should choose it
-- Photos or source links where available
+- A clickable Ctrip hotel detail link for each hotel so the user can inspect room, exterior, facilities, and neighborhood photos. Prefer the exact hotel detail page; if it cannot be found reliably, provide a Ctrip hotel search link prefilled with the exact hotel name. Label the link clearly as "携程看酒店照片".
 
 Keep hotel output decision-focused. Lead with which combination is recommended and why. Show enough price range information for comparison, but avoid long review summaries unless the user asks.
 
@@ -194,7 +164,7 @@ End with numeric options:
 4. 点击查看资料来源
 5. 返回上一步
 
-### Stage 6: Itinerary Overview And Expandable Details
+### Stage 5: Itinerary Overview And Expandable Details
 
 After the user chooses hotels, first provide an itinerary overview rather than every detail at once. The overview must be enough for the user to judge feasibility.
 
@@ -203,7 +173,7 @@ The default overview should include:
 - One-line route summary and travel style
 - Day-by-day compact table with date, area, main activities, overnight hotel/base, and pace
 - Key feasibility notes: long transfers, altitude/cold-weather risk, ticket deadlines, elderly/child load
-- Updated rough total budget range if the hotel/route choice materially changed the estimate
+- Updated rough total budget range if the selected hotel or route materially changes the destination-shortlist estimate
 
 End the overview with numeric options:
 
@@ -269,7 +239,7 @@ After each expanded pack, end with numeric options:
 
 - Use concise Chinese headings and tables.
 - Make the response visually scannable: short sections, compact tables, clear numbering, and images where they help decisions.
-- Keep the user moving through decisions; do not dump all six stages at once.
+- Keep the user moving through decisions; do not dump all five stages at once.
 - Every decision prompt should use numeric options. The last option should be "返回上一步" when applicable.
 - The numbers in decision prompts must match the numbers shown in the option table. Keep recommendations in the copy, not by renumbering options.
 - Tell users they can manually type a new direction if none of the options fit.
